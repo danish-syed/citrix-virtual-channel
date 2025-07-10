@@ -1,0 +1,539 @@
+ // Copyright (c) 1995-2006 Citrix Systems, Inc. All Rights Reserved.
+// Microsoft Visual C++ generated resource script.
+//
+#include "ctxsmcdlg.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "winres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON_CHANNEL        ICON                    "015_TCP-Ipgroup_combo_all.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DLG_MAIN DIALOGEX 0, 0, 464, 325
+STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_CENTER |
+    WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Session Monitoring and Control Console"
+FONT 10, "System", 0, 0, 0x0
+BEGIN
+    COMBOBOX        IDC_SESSION_DROP,71,2,391,80,CBS_DROPDOWNLIST | CBS_SORT |
+                    CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Tab1",IDC_TAB_DATA,"SysTabControl32",WS_TABSTOP,4,20,
+                    458,286
+    PUSHBUTTON      "Exit",IDCANCEL,412,308,50,14
+    LTEXT           "Select ICA Session",IDC_STATIC,4,3,66,8
+END
+
+IDD_DLG_SESSION DIALOGEX 0, 0, 458, 240
+STYLE DS_SETFONT | DS_SETFOREGROUND | DS_3DLOOK | WS_CHILD | WS_VISIBLE
+FONT 10, "System", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Server Data Sent",IDC_STATIC,2,4,224,64
+    LTEXT           "Total Bytes Before Compression",IDC_STATIC,8,16,160,8
+    LTEXT           "0",IDC_SRV_SENT_BEFORE,153,16,67,8,0,WS_EX_RIGHT
+    LTEXT           "Total Bytes After Compression",IDC_STATIC,8,34,160,8
+    LTEXT           "0",IDC_SRV_SENT_AFTER,153,34,67,8,0,WS_EX_RIGHT
+    LTEXT           "Average Compression % ",IDC_STATIC,8,52,160,8
+    LTEXT           "0",IDC_SRV_SENT_AVE,153,52,67,8,0,WS_EX_RIGHT
+    GROUPBOX        "Server Data Received",IDC_STATIC,230,4,224,64
+    LTEXT           "Total Bytes Received Before Expansion",IDC_STATIC,236,
+                    16,160,8
+    LTEXT           "0",IDC_SRV_RECV_BEFORE,381,16,67,8,0,WS_EX_RIGHT
+    LTEXT           "Total Bytes Received After Expansion",IDC_STATIC,236,34,
+                    160,8
+    LTEXT           "0",IDC_SRV_RECV_AFTER,381,34,67,8,0,WS_EX_RIGHT
+    LTEXT           "Average Compression % ",IDC_STATIC,236,52,160,8
+	LTEXT           "0",IDC_SRV_RECV_AVE,381,52,67,8,0,WS_EX_RIGHT
+	
+	LTEXT           "Select Session Connection",IDC_MSI_LABEL,2,73,140,8
+
+    COMBOBOX        IDC_SESSION_C_DROP,92,73,350,80,CBS_DROPDOWNLIST |
+					CBS_HASSTRINGS | WS_VSCROLL
+
+    GROUPBOX        "Selected Session Connection Data Sent",IDC_STATIC,2,88,224,80
+    LTEXT           "Byte Count",IDC_STATIC,8,100,80,8
+    CTEXT           "0",IDC_SESS_SENT_COUNT,118,101,67,8
+    LTEXT           "Bandwidth ( KBits/sec )",IDC_STATIC,8,118,80,8
+    CONTROL         "Progress2",IDC_SESS_SENT_BW,"msctls_progress32",0x0,92,
+                    117,93,10
+    LTEXT           "Compression %",IDC_STATIC,8,138,80,8
+    CONTROL         "Progress2",IDC_SESS_SENT_COMP,"msctls_progress32",0x0,
+                    92,137,120,10
+    LTEXT           "100 %",IDC_STATIC,145,154,32,8
+    GROUPBOX        "Selected Session Connection Data Received",IDC_STATIC,230,88,224,
+                    80
+    LTEXT           "Byte Count",IDC_STATIC,236,100,80,8
+    CTEXT           "0",IDC_SESS_RECV_COUNT,347,100,67,8
+    LTEXT           "Bandwidth ( KBits/sec )",IDC_STATIC,236,118,80,8
+    CONTROL         "Progress2",IDC_SESS_RECV_BW,"msctls_progress32",0x0,320,
+                    117,93,10
+    LTEXT           "Compression %",IDC_STATIC,236,138,80,8
+    CONTROL         "Progress2",IDC_SESS_RECV_COMP,"msctls_progress32",0x0,
+                    320,137,120,10
+    LTEXT           "100 %",IDC_STATIC,374,154,32,8
+
+    GROUPBOX        "Selected Session Connection Latency",IDC_STATIC,2,187,223,77
+    LTEXT           "Last Latency (ms)",IDC_STATIC,8,199,80,8
+    CONTROL         "Progress2",IDC_LATENCY_LAST,"msctls_progress32",0x0,92,
+                    198,93,10
+    LTEXT           "0",IDC_LATENCY_LAST_COUNT,189,199,32,8
+    LTEXT           "Average Latency (ms)",IDC_STATIC,8,217,80,8
+    CONTROL         "Progress2",IDC_LATENCY_AVE,"msctls_progress32",0x0,92,
+                    216,93,10
+    LTEXT           "0",IDC_LATENCY_AVE_COUNT,189,217,32,8
+    LTEXT           "Round Trip Deviation (ms)",IDC_STATIC,8,233,80,8
+    CONTROL         "Progress2",IDC_LATENCY_TRIP,"msctls_progress32",0x0,92,
+                    230,93,10
+    LTEXT           "0",IDC_LATENCY_TRIP_COUNT,189,233,32,8
+    LTEXT           "Time since updated (ms)",IDC_STATIC,8,251,80,8
+    LTEXT           "0",IDC_LATENCY_LAST_TIME,92,251,82,8
+    GROUPBOX        "Selected Session Connection Line Speed",IDC_STATIC,230,187,223,77
+    LTEXT           "Output ( KBits/sec )",IDC_STATIC,236,199,80,8
+    CONTROL         "Progress2",IDC_SESS_OUTPUT_LS,"msctls_progress32",0x0,
+                    320,198,93,10
+    LTEXT           "0",IDC_SESS_OUTPUT_COUNT,418,199,32,8
+    LTEXT           "Input ( KBits/sec )",IDC_STATIC,236,217,80,8
+    CONTROL         "Progress2",IDC_SESS_INPUT_LS,"msctls_progress32",0x0,
+                    320,216,93,10
+    LTEXT           "0",IDC_SESS_INPUT_COUNT,418,217,32,8
+
+    LTEXT           "0",IDC_SENT_BW_COUNT,189,118,32,8
+    LTEXT           "0",IDC_RECV_BW_COUNT,418,118,32,8
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDVERT,152,132,1,21
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDVERT,380,132,1,21
+END
+
+IDD_DLG_VCHANNEL DIALOGEX 0, 0, 458, 274
+STYLE DS_SETFONT | DS_3DLOOK | WS_CHILD | WS_VISIBLE
+FONT 10, "System", 0, 0, 0x0
+BEGIN
+    GROUPBOX        "Session Total",IDC_STATIC,4,4,444,32
+    LTEXT           "Bandwidth",IDC_STATIC,8,18,48,10
+    CONTROL         "Progress2",IDC_SESSION_BWIDTH,"msctls_progress32",0x0,
+                    60,18,80,10
+    LTEXT           "Limit ( KBits/sec )",IDC_STATIC,160,18,64,10
+    CONTROL         "Slider2",IDC_SESSION_LIMIT,"msctls_trackbar32",
+                    TBS_NOTICKS | WS_TABSTOP,230,22,210,12
+    LTEXT           "0",IDC_STATIC,232,11,16,10
+    LTEXT           "100",IDC_SESSION_LIMIT_MAX_TEXT,424,11,16,10
+    CTEXT           "Unrestricted bandwidth",IDC_SESSION_LIMIT_COUNT,303,12,
+                    84,10
+    LTEXT           "Bandwidth",IDC_STATIC,60,40,48,10
+    LTEXT           "Limit",IDC_STATIC,144,40,32,10
+    LTEXT           "Priority",IDC_STATIC,184,40,32,10
+    PUSHBUTTON      "CTXLPT1",IDC_BUTTON_LPT1,8,52,48,12
+    CONTROL         "Progress2",IDC_PROGRESS_LPT1,"msctls_progress32",0x0,60,
+                    52,80,10
+    LTEXT           "NO Limit",IDC_BWIDTH_LPT1,144,52,32,10
+    LTEXT           "Normal",IDC_PRIORITY_LPT1,184,52,32,10
+    PUSHBUTTON      "CTXLPT2",IDC_BUTTON_LPT2,8,68,48,12
+    CONTROL         "Progress2",IDC_PROGRESS_LPT2,"msctls_progress32",0x0,60,
+                    68,80,10
+    LTEXT           "NO Limit",IDC_BWIDTH_LPT2,144,68,32,10
+    LTEXT           "Normal",IDC_PRIORITY_LPT2,184,68,32,10
+    PUSHBUTTON      "CTXCPM",IDC_BUTTON_CPM,8,84,48,12
+    CONTROL         "Progress2",IDC_PROGRESS_CPM,"msctls_progress32",0x0,60,
+                    84,80,10
+    LTEXT           "NO Limit",IDC_BWIDTH_CPM,144,84,32,10
+    LTEXT           "Normal",IDC_PRIORITY_CPM,184,84,32,10
+    PUSHBUTTON      "CTXCOM1",IDC_BUTTON_COM1,8,100,48,12
+    CONTROL         "Progress2",IDC_PROGRESS_COM1,"msctls_progress32",0x0,60,
+                    100,80,10
+    LTEXT           "NO Limit",IDC_BWIDTH_COM1,144,100,32,10
+    LTEXT           "Normal",IDC_PRIORITY_COM1,184,100,32,10
+    PUSHBUTTON      "CTXCOM2",IDC_BUTTON_COM2,8,116,48,12
+    CONTROL         "Progress2",IDC_PROGRESS_COM2,"msctls_progress32",0x0,60,
+                    116,80,10
+    LTEXT           "NO Limit",IDC_BWIDTH_COM2,144,116,32,10
+    LTEXT           "Normal",IDC_PRIORITY_COM2,184,116,32,10
+    PUSHBUTTON      "CTXCCM",IDC_BUTTON_CCM,8,132,48,12
+    CONTROL         "Progress2",IDC_PROGRESS_CCM,"msctls_progress32",0x0,60,
+                    132,80,10
+    LTEXT           "NO Limit",IDC_BWIDTH_CCM,144,132,32,10
+    LTEXT           "Normal",IDC_PRIORITY_CCM,184,132,32,10
+    PUSHBUTTON      "CTXCDM",IDC_BUTTON_CDM,8,148,48,12
+    CONTROL         "Progress2",IDC_PROGRESS_CDM,"msctls_progress32",0x0,60,
+                    148,80,10
+    LTEXT           "NO Limit",IDC_BWIDTH_CDM,144,148,32,10
+    LTEXT           "Normal",IDC_PRIORITY_CDM,184,148,32,10
+    PUSHBUTTON      "CTXCLIP",IDC_BUTTON_CLIP,8,164,48,12
+    CONTROL         "Progress2",IDC_PROGRESS_CLIP,"msctls_progress32",0x0,60,
+                    164,80,10
+    LTEXT           "NO Limit",IDC_BWIDTH_CLIP,144,164,32,10
+    LTEXT           "Normal",IDC_PRIORITY_CLIP,184,164,32,10
+    PUSHBUTTON      "CTXTW",IDC_BUTTON_TW,8,180,48,12
+    CONTROL         "Progress2",IDC_PROGRESS_TW,"msctls_progress32",0x0,60,
+                    180,80,10
+    LTEXT           "NO Limit",IDC_BWIDTH_TW,144,180,32,10
+    LTEXT           "Normal",IDC_PRIORITY_TW,184,180,32,10
+    PUSHBUTTON      "CTXTWI",IDC_BUTTON_TWI,8,196,48,12
+    CONTROL         "Progress2",IDC_PROGRESS_TWI,"msctls_progress32",0x0,60,
+                    196,80,10
+    LTEXT           "NO Limit",IDC_BWIDTH_TWI,144,196,32,10
+    LTEXT           "Normal",IDC_PRIORITY_TWI,184,196,32,10
+    PUSHBUTTON      "CTXZLFK",IDC_BUTTON_ZLFK,8,212,48,12
+    CONTROL         "Progress2",IDC_PROGRESS_ZLFK,"msctls_progress32",0x0,60,
+                    212,80,10
+    LTEXT           "NO Limit",IDC_BWIDTH_ZLFK,144,212,32,10
+    LTEXT           "Normal",IDC_PRIORITY_ZLFK,184,212,32,10
+    PUSHBUTTON      "CTXZLC",IDC_BUTTON_ZLC,8,227,48,12
+    CONTROL         "Progress2",IDC_PROGRESS_ZLC,"msctls_progress32",0x0,60,
+                    228,80,10
+    LTEXT           "NO Limit",IDC_BWIDTH_ZLC,144,228,32,10
+    LTEXT           "Normal",IDC_PRIORITY_ZLC,184,228,32,10
+    LTEXT           "Bandwidth",IDC_STATIC,296,40,48,10
+    LTEXT           "Limit",IDC_STATIC,380,40,32,10
+    LTEXT           "Priority",IDC_STATIC,420,40,32,10
+    PUSHBUTTON      "CTXCTL",IDC_BUTTON_CTL,244,52,48,12
+    CONTROL         "Progress2",IDC_PROGRESS_CTL,"msctls_progress32",0x0,296,
+                    52,80,10
+    LTEXT           "NO Limit",IDC_BWIDTH_CTL,380,52,32,10
+    LTEXT           "Normal",IDC_PRIORITY_CTL,420,52,32,10
+    PUSHBUTTON      "CTXPASS",IDC_BUTTON_PASS,244,68,48,12
+    CONTROL         "Progress2",IDC_PROGRESS_PASS,"msctls_progress32",0x0,
+                    296,68,80,10
+    LTEXT           "NO Limit",IDC_BWIDTH_PASS,380,68,32,10
+    LTEXT           "Normal",IDC_PRIORITY_PASS,420,68,32,10
+    PUSHBUTTON      "CTXCAM",IDC_BUTTON_CAM,244,84,48,12
+    CONTROL         "Progress2",IDC_PROGRESS_CAM,"msctls_progress32",0x0,296,
+                    84,80,10
+    LTEXT           "NO Limit",IDC_BWIDTH_CAM,380,84,32,10
+    LTEXT           "Normal",IDC_PRIORITY_CAM,420,84,32,10
+    PUSHBUTTON      "CTXCM",IDC_BUTTON_CM,244,100,48,12
+    CONTROL         "Progress2",IDC_PROGRESS_CM,"msctls_progress32",0x0,296,
+                    100,80,10
+    LTEXT           "NO Limit",IDC_BWIDTH_CM,380,100,32,10
+    LTEXT           "Normal",IDC_PRIORITY_CM,420,100,32,10
+    PUSHBUTTON      "CTXLIC",IDC_BUTTON_LIC,244,116,48,12
+    CONTROL         "Progress2",IDC_PROGRESS_LIC,"msctls_progress32",0x0,296,
+                    116,80,10
+    LTEXT           "NO Limit",IDC_BWIDTH_LIC,380,116,32,10
+    LTEXT           "Normal",IDC_PRIORITY_LIC,420,116,40,10
+    PUSHBUTTON      "CTXVFM",IDC_BUTTON_VFM,244,132,48,12
+    CONTROL         "Progress2",IDC_PROGRESS_VFM,"msctls_progress32",0x0,296,
+                    132,80,10
+    LTEXT           "NO Limit",IDC_BWIDTH_VFM,380,132,32,10
+    LTEXT           "Normal",IDC_PRIORITY_VFM,420,132,32,10
+    PUSHBUTTON      "CTXPN",IDC_BUTTON_PN,244,148,48,12
+    CONTROL         "Progress2",IDC_PROGRESS_PN,"msctls_progress32",0x0,296,
+                    149,80,10
+    LTEXT           "NO Limit",IDC_BWIDTH_PN,380,148,32,10
+    LTEXT           "Normal",IDC_PRIORITY_PN,420,148,32,10
+    PUSHBUTTON      "CTXSCRD",IDC_BUTTON_SCRD,8,243,48,12
+    CONTROL         "Progress2",IDC_PROGRESS_SCRD,"msctls_progress32",0x0,60,244,80,
+                    10
+    LTEXT           "NO Limit",IDC_BWIDTH_SCRD,144,244,32,10
+    LTEXT           "Normal",IDC_PRIORITY_SCRD,184,244,32,10
+    PUSHBUTTON      "CTXMM",IDC_BUTTON_MM,244,162,48,12
+    CONTROL         "Progress2",IDC_PROGRESS_MM,"msctls_progress32",0x0,296,163,80,10
+    LTEXT           "NO Limit",IDC_BWIDTH_MM,380,163,32,10
+    LTEXT           "Normal",IDC_PRIORITY_MM,420,163,32,10
+    PUSHBUTTON      "CTXSBR",IDC_BUTTON_SBR,8,258,48,12
+    CONTROL         "Progress2",IDC_PROGRESS_SBR,"msctls_progress32",0x0,60,259,80,10
+    LTEXT           "NO Limit",IDC_BWIDTH_SBR,144,259,32,10
+    LTEXT           "Normal",IDC_PRIORITY_SBR,185,258,32,10
+    PUSHBUTTON      "CTXTWN",IDC_BUTTON_TWN,244,178,48,12
+    CONTROL         "Progress2",IDC_PROGRESS_TWN,"msctls_progress32",0x0,296,178,80,
+                    10
+    LTEXT           "NO Limit",IDC_BWIDTH_TWN,380,178,32,10
+    LTEXT           "Normal",IDC_PRIORITY_TWN,420,178,32,10
+    PUSHBUTTON      "",IDC_BUTTON_OEM1,244,193,48,12
+    CONTROL         "Progress2",IDC_PROGRESS_OEM1,"msctls_progress32",0x0,
+                    296,193,80,10
+    LTEXT           "NO Limit",IDC_BWIDTH_OEM1,380,193,32,10
+    LTEXT           "Normal",IDC_PRIORITY_OEM1,420,193,32,10
+    PUSHBUTTON      "",IDC_BUTTON_OEM2,244,209,48,12
+    CONTROL         "Progress2",IDC_PROGRESS_OEM2,"msctls_progress32",0x0,
+                    296,209,80,10
+    LTEXT           "NO Limit",IDC_BWIDTH_OEM2,380,209,32,10
+    LTEXT           "Normal",IDC_PRIORITY_OEM2,420,209,32,10
+    PUSHBUTTON      "",IDC_BUTTON_OEM3,244,225,48,12
+    CONTROL         "Progress2",IDC_PROGRESS_OEM3,"msctls_progress32",0x0,
+                    296,225,80,10
+    LTEXT           "NO Limit",IDC_BWIDTH_OEM3,380,225,32,10
+    LTEXT           "Normal",IDC_PRIORITY_OEM3,420,225,32,10
+    PUSHBUTTON      "",IDC_BUTTON_OEM4,244,241,48,12
+    CONTROL         "Progress2",IDC_PROGRESS_OEM4,"msctls_progress32",0x0,
+                    296,241,80,10
+    LTEXT           "NO Limit",IDC_BWIDTH_OEM4,380,241,32,10
+    LTEXT           "Normal",IDC_PRIORITY_OEM4,420,241,32,10
+    PUSHBUTTON      "",IDC_BUTTON_OEM5,244,256,48,12
+    CONTROL         "Progress2",IDC_PROGRESS_OEM5,"msctls_progress32",0x0,
+                    296,257,80,10
+    LTEXT           "NO Limit",IDC_BWIDTH_OEM5,380,257,32,10
+    LTEXT           "Normal",IDC_PRIORITY_OEM5,420,257,32,10
+END
+
+IDD_DLG_OPTIONS DIALOGEX 0, 0, 458, 274
+STYLE DS_SETFONT | DS_3DLOOK | WS_CHILD | WS_VISIBLE
+FONT 10, "System", 0, 0, 0x0
+BEGIN
+    GROUPBOX        "",IDC_STATIC,2,14,452,253
+    LTEXT           "Display Update Interval ( ms )",IDC_STATIC,8,20,200,10
+    CONTROL         "Slider2",IDC_OPT_REFRESH,"msctls_trackbar32",
+                    TBS_NOTICKS | WS_TABSTOP,240,19,200,12
+    LTEXT           "100 (ms)",IDC_STATIC,230,8,40,10
+    LTEXT           "10,000 (ms)",IDC_STATIC,406,8,40,10
+    LTEXT           "500",IDC_OPT_REFRESH_COUNT,330,8,40,10
+    LTEXT           "Display Bandwidth Upper Range ( KBits/sec )",IDC_STATIC,
+                    8,50,200,10
+    CONTROL         "Slider2",IDC_OPT_BANDWIDTH,"msctls_trackbar32",
+                    TBS_NOTICKS | WS_TABSTOP,240,49,200,12
+    LTEXT           "1 (kbps)",IDC_STATIC,230,38,40,10
+    LTEXT           "10,000 (kbps)",IDC_STATIC,406,38,44,10
+    LTEXT           "4",IDC_OPT_BANDWIDTH_COUNT,330,38,40,10
+    LTEXT           "Latency Data Upper Range ( ms )",IDC_STATIC,8,80,200,10
+    CONTROL         "Slider2",IDC_OPT_LATENCY,"msctls_trackbar32",
+                    TBS_NOTICKS | WS_TABSTOP,240,79,200,12
+    LTEXT           "10 (ms)",IDC_STATIC,230,68,40,10
+    LTEXT           "10,000 (ms)",IDC_STATIC,406,68,40,10
+    LTEXT           "1,000",IDC_OPT_LATENCY_COUNT,330,68,40,10
+    LTEXT           "Bandwidth Control Limit ( KBits/sec )",IDC_STATIC,8,110,
+                    200,10
+    CONTROL         "Slider2",IDC_OPT_BW_LIMIT,"msctls_trackbar32",
+                    TBS_NOTICKS | WS_TABSTOP,240,109,200,12
+    LTEXT           "1 (kbps)",IDC_STATIC,230,98,40,10
+    LTEXT           "10,000 (kbps)",IDC_STATIC,406,98,44,10
+    LTEXT           "32",IDC_OPT_BW_LIMIT_COUNT,330,98,40,10
+    LTEXT           "Log Filename",IDC_STATIC,8,147,45,8
+    LTEXT           "Log Status",IDC_STATIC,8,163,36,8
+    PUSHBUTTON      "Set Log File",IDC_LOGFILENAME,8,180,50,14
+    PUSHBUTTON      "Change Status",IDC_LOGGING_STATUS,65,180,50,14
+    LTEXT           "OFF",IDC_LOG_STATUS_LABEL,65,163,18,8
+    GROUPBOX        "Log Settings",IDC_STATIC,5,129,180,76
+    EDITTEXT        IDC_LOG_FILENAME_LABEL,65,146,108,14,ES_AUTOHSCROLL |
+                    ES_READONLY
+END
+
+IDD_DLG_CHANNEL DIALOG  0, 0, 236, 144
+STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_CENTER | WS_POPUP |
+    WS_CAPTION | WS_SYSMENU
+CAPTION "Virtual Channel Control"
+FONT 10, "System"
+BEGIN
+    LTEXT           "Channel",IDC_CHANNEL_LABEL,4,4,40,10
+    LTEXT           "Friendly Name",IDC_CHANNEL_FRIENDLY,48,4,280,20
+    GROUPBOX        "Bandwidth Limit ( KBits/Sec )",IDC_STATIC,4,28,228,44
+    CONTROL         "Slider2",IDC_CHANNEL_CONTROL,"msctls_trackbar32",
+                    TBS_NOTICKS | WS_TABSTOP,8,56,220,12
+    LTEXT           "0",IDC_STATIC,8,44,16,10
+    RTEXT           "100",IDC_VC_CONTROL_TEXT_MAX,170,44,50,10
+    CTEXT           "32",IDC_CHANNEL_CONTROL_COUNT,80,44,76,10
+    GROUPBOX        "Priority",IDC_STATIC,14,76,56,64
+    CONTROL         "Very High",IDC_CHANNEL_VERYHIGH,"Button",
+                    BS_AUTORADIOBUTTON,18,90,48,10
+    CONTROL         "High",IDC_CHANNEL_HIGH,"Button",BS_AUTORADIOBUTTON,18,
+                    102,48,10
+    CONTROL         "Normal",IDC_CHANNEL_NORMAL,"Button",BS_AUTORADIOBUTTON,
+                    18,114,48,10
+    CONTROL         "Low",IDC_CHANNEL_LOW,"Button",BS_AUTORADIOBUTTON,18,126,
+                    48,10
+    PUSHBUTTON      "Apply",IDOK,120,124,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,180,124,50,14
+END
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE
+BEGIN
+    "ctxsmcdlg.h\0"
+END
+
+2 TEXTINCLUDE
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_DLG_MAIN, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 322
+        HORZGUIDE, 296
+    END
+
+    IDD_DLG_VCHANNEL, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 270
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_DESCR_CTXLPT1       "Old client printer mapping channel."
+    IDS_DESCR_CTXLPT2       "Old client printer mapping channel."
+    IDS_DESCR_CTXCPM        "Client printer mapping (spooling)."
+    IDS_DESCR_CTXCOM1       "Old client printer mapping channel."
+    IDS_DESCR_CTXCOM2       "Old client printer mapping channel."
+    IDS_DESCR_CTXCCM        "Client COM port mapping channel."
+    IDS_DESCR_CTXCDM        "Client drive mapping channel."
+    IDS_DESCR_CTXCLIP       "Clipboard channel."
+END
+
+STRINGTABLE
+BEGIN
+    IDS_DESCR_CTXTW         "ThinWire graphics channel."
+    IDS_DESCR_CTXTWI        "Seamless Windows channel."
+    IDS_DESCR_CTXZLFK       "Local Text Echo font and keyboard data channel."
+    IDS_DESCR_CTXZLC        "Local Text Echo data channel."
+    IDS_DESCR_CTXCTL        "ICA Control Channel."
+    IDS_DESCR_CTXPASS       "reserved channel for shadowing."
+    IDS_DESCR_CTXCAM        "Client audio mapping."
+    IDS_DESCR_CTXCM         "Client management channel."
+    IDS_DESCR_CTXLIC        "Client license management channel."
+    IDS_DESCR_CTXVFM        "Video server channel."
+    IDS_DESCR_CTXPN         "Program Neighbourhood channel."
+    IDS_DESCR_OEM1          "OEM1"
+    IDS_DESCR_OEM2          "OEM2"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_NONE_SELECTED       "<None Selected>"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_PRIORITY_LOW        "Low"
+    IDS_PRIORITY_NORMAL     "Normal"
+    IDS_PRIORITY_HIGH       "High"
+    IDS_PRIORITY_VERYHIGH   "Very High"
+    IDS_BWIDTH_NOLIMIT      "None"
+    IDS_SELECT_NONE         " <None Selected>"
+    IDS_TAB_ONE             "General Data"
+    IDS_TAB_TWO             "Session Channels"
+    IDS_TAB_THREE           "Options"
+    IDS_SESS_BWIDTH_NOLIMIT "Unrestricted bandwidth"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_DESCR_OEM3          "OEM3"
+    IDS_DESCR_OEM4          "OEM4"
+    IDS_DESCR_OEM5          "OEM5"
+    IDS_DEFAULTLOGFILE      "c:\\ctxsmclog.csv"
+    IDS_LOGSTATUS_ON        "ON"
+    IDS_LOGSTATUS_OFF       "OFF"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (Australia) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENA)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_AUS
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "Comments", "FOR INTERNAL DEMONSTRATION PURPOSES ONLY"
+            VALUE "CompanyName", "Citrix Systems Inc."
+            VALUE "FileDescription", "Citrix Session Monitoring and Control (SMC) Console"
+            VALUE "FileVersion", "1, 0, 0, 1"
+            VALUE "InternalName", "smcconsole"
+            VALUE "LegalCopyright", "Copyright (C) 2000 Citrix Systems Inc."
+            VALUE "OriginalFilename", "smcconsole.EXE"
+            VALUE "ProductName", "Citrix Session Monitoring and Control Console"
+            VALUE "ProductVersion", "1, 0, 0, 1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif    // English (Australia) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

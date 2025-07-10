@@ -1,0 +1,76 @@
+// Copyright (C) Citrix Systems, Inc.  All Rights Reserved.
+
+#include "ctxping.h"
+
+
+STRINGTABLE
+BEGIN
+    IDS_ERROR_MALLOC
+                "Error allocating memory\n"
+    IDS_ERROR_INVALID_PARAMETERS
+                "Invalid parameter(s)\n"
+    IDS_ERROR_OPEN_FAILED
+                "Failed to open the channel - error %d.\n"
+    IDS_ERROR_WRITE_FAILED
+                "VirtualChannelWrite Failed - %d\n"
+    IDS_ERROR_READ_FAILED
+                "VirtualChannelRead Failed\n"
+    IDS_ERROR_WRITE_SHORT
+                "VirtualChannelWrite Too Short - wrote %ld bytes\n"
+    IDS_ERROR_READ_SHORT
+                "VirtualChannelRead Too Short - read %ld bytes\n"
+    IDS_ERROR_CLIENT_PACKET_INVALID
+                "Client Did Not Echo Expected Data\n"
+    IDS_ERROR_CTXPING_FAIL
+                "Ctxping failed.\n"
+    IDS_ERROR_QUERY_FAIL
+                "WFVirtualChannelQuery() failed - %d\n"
+    IDS_ERROR_QUERY_SESSION_FAIL
+                "WFQuerySessionInformation() failed - %d\n"
+    IDS_ERROR_NEEDS_SESSION
+                "This program must be run from within an ICA session.\n"
+    IDS_OPENED_CHANNEL
+                "Opened the channel, handle is %ld.\n"
+    IDS_BEGIN_PACKET
+                "Sending BEGIN Packet\n"
+    IDS_END_PACKET
+                "Sending END Packet\n"
+    IDS_SENDPING_SUCCESS
+                "Reply from client: bytes=%d, BEGIN packet took %ld ms, END packet took %ld ms\n"
+    IDS_INFO_SENT
+                "Sending : "
+    IDS_DATA_SENT
+                "signature=0x%x type=%u len=%u ServerMS=%lu\n"
+    IDS_INFO_RCVD
+                "Received: "
+    IDS_DATA_RCVD
+                "signature=0x%x type=%u len=%u ServerMS=%lu ClientMS=%lu\n"
+    IDS_QUERY
+                "Querying virtual channel succeeded.  Data returned:\n"
+    IDS_QUERY_C2H1
+                "Interpreting the data, we see:\nByteCount      %u\n"
+    IDS_QUERY_C2H2
+                "ModuleCount    %u\n"
+    IDS_QUERY_C2H3
+                "ModuleClass    %u\n"
+    IDS_QUERY_C2H4
+                "VersionL       %u\n"
+    IDS_QUERY_C2H5
+                "VersionH       %u\n"
+    IDS_QUERY_C2H6
+                "ModuleName     "
+    IDS_QUERY_C2H7
+                "HostModuleName "
+    IDS_QUERY_C2H8
+                "ModuleDate     %02u/%02u/%02u\n"
+    IDS_QUERY_C2H9
+                "ModuleTime     %02u:%02u:%02u\n"
+    IDS_QUERY_C2H10
+                "ModuleSize     %ld\n\n"
+    IDS_ROUND_TRIP
+                "\nTotal packet time      : %ld\nAverage round trip time: %ld\n"
+    IDS_SEND_FAILED
+                "SendBeginAndEnd() failed, rc=%d, GetLastError=%ld\n"
+
+END
+

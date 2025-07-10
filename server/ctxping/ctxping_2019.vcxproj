@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>ctxping</ProjectName>
+    <ProjectGuid>{2D107D73-483B-40E9-9E5A-7E92BA3C6514}</ProjectGuid>
+    <RootNamespace>ctxping</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>15.0.26419.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(ProjectDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(ProjectDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+    <IncludePath>$(ProjectDir)\..\..\WfApiSDK\include;$(ProjectDir)\..\..\header_files\shared\inc;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)\..\..\WfApiSDK\lib\TS;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <PreBuildEvent>
+      <Command />
+    </PreBuildEvent>
+    <CustomBuildStep>
+      <Command />
+    </CustomBuildStep>
+    <ClCompile>
+      <AdditionalOptions>/SAFESEH %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(VCInstallDir)\include;$(WindowsSdkDir)\Include;$(WindowsSdkDir)\Include\10.0.15063.0\um;$(WindowsSdkDir)Include\10.0.15063.0\shared;$(VC_IncludePath)$(WindowsSdkDir)Include\10.0.15063.0\ucrt;$(WFAPILIBPATH)\include;$(ProjectDir);$(ProjectDir)..\..\Shared\inc\;$(ProjectDir)..\..\..\..\shared\inc;$(ProjectDir)..\..\..\..\inc;$(ProjectDir)..\..\..\..\inc\win32;$(ProjectDir)..\..\..\..\inc\windos;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WIN32;_DEBUG;_LIB;_WIN32_WINNT=0x0600;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <StructMemberAlignment>8Bytes</StructMemberAlignment>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CallingConvention>StdCall</CallingConvention>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>wfapi.lib;user32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WFAPILIBPATH)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <StripPrivateSymbols>$(TargetDir)$(TargetName).pdb2</StripPrivateSymbols>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>$(TargetDir)$(TargetName).map</MapFileName>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <BuildLog>
+      <Path>$(IntDir)BuildLog.htm</Path>
+    </BuildLog>
+    <PreBuildEvent>
+      <Command />
+    </PreBuildEvent>
+    <CustomBuildStep>
+      <Command />
+    </CustomBuildStep>
+    <ClCompile>
+      <AdditionalOptions>/SAFESEH %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>$(VCInstallDir)\include;$(WindowsSdkDir)\Include;$(WindowsSdkDir)\Include\10.0.15063.0\um;$(WindowsSdkDir)Include\10.0.15063.0\shared;$(VC_IncludePath)$(WindowsSdkDir)Include\10.0.15063.0\ucrt;$(WFAPILIBPATH)\include;$(ProjectDir);$(ProjectDir)..\..\Shared\inc\;$(ProjectDir)..\..\..\..\shared\inc;$(ProjectDir)..\..\..\..\inc;$(ProjectDir)..\..\..\..\inc\win32;$(ProjectDir)..\..\..\..\inc\windos;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WIN32;NDEBUG;_LIB;_WIN32_WINNT=0x0600;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <StructMemberAlignment>8Bytes</StructMemberAlignment>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CallingConvention>StdCall</CallingConvention>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <Link>
+      <AdditionalOptions>/SAFESEH %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>wfapi.lib;user32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WFAPILIBPATH)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <StripPrivateSymbols>$(TargetDir)$(TargetName).pdb2</StripPrivateSymbols>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>$(TargetDir)$(TargetName).map</MapFileName>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="ctxping.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ctxping.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ctxping.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
