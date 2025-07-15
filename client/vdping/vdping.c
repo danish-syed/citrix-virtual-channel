@@ -206,7 +206,7 @@ int DriverOpen(PVD pVd, PVDOPEN pVdOpen, PUINT16 puiSize)
 
     if(CLIENT_STATUS_SUCCESS != rc)
     {
-        TRACE((TC_VD, TT_ERROR, "VDPING: Could not register write hook. rc %d", rc));
+        TRACE((TC_VD, TT_ERROR, "VDPING: Could not register write hook. rc %d", rc))
         return(rc);
     }
     g_pWd = vdwh.pWdData;										// get the pointer to the WD data
@@ -331,7 +331,8 @@ static void WFCAPI ICADataArrival(PVOID pVd, USHORT uChan, LPBYTE pBuf, USHORT L
     WIRE_READ(PING, pPacket, pBuf);
 
     TRACE((TC_VD, TT_API3, "VDPING: IcaDataArrival, Len=%d, g_uLen=%d, pData=[%x][%x][%x][%x]",
-					Length, pPacket->uLen, ((LPBYTE)pPacket)[0], ((LPBYTE)pPacket)[1], ((LPBYTE)pPacket)[2], ((LPBYTE)pPacket)[3]))
+					Length, pPacket->uLen, ((LPBYTE)pPacket)[0], 
+        ((LPBYTE)pPacket)[1], ((LPBYTE)pPacket)[2], ((LPBYTE)pPacket)[3]))
     TRACEBUF((TC_VD, TT_API3, pPacket, 20))
 
     // This protocol is completely synchronous - host should not send
@@ -339,7 +340,7 @@ static void WFCAPI ICADataArrival(PVOID pVd, USHORT uChan, LPBYTE pBuf, USHORT L
 
     if(!g_fBufferEmpty)
 	{
-        TRACE((TC_VD, TT_ERROR, "VDPING: ICADataArrival - Error: not all data was sent"));
+        TRACE((TC_VD, TT_ERROR, "VDPING: ICADataArrival - Error: not all data was sent"))
         return;
     }
 
@@ -358,7 +359,7 @@ static void WFCAPI ICADataArrival(PVOID pVd, USHORT uChan, LPBYTE pBuf, USHORT L
     memcpy_s(g_pPing, g_usMaxDataSize, pPacket, g_pPing->uLen);
     g_pPing->ulClientMS = (ULONG) GetTickCount();
     g_fBufferEmpty = FALSE;
-    TRACE((TC_VD, TT_API3, "VDPING: ICADataArrival - data queued up, len %d ",	g_pPing->uLen));
+    TRACE((TC_VD, TT_API3, "VDPING: ICADataArrival - data queued up, len %d ",	g_pPing->uLen))
     TRACEBUF((TC_VD, TT_API3, g_pPing, g_pPing->uLen))
 
 	// Save the length, because WIRE_WRITE byte-swaps it
@@ -733,7 +734,8 @@ int _SendAvailableData(void)
         //                  (0xCAACCAAC).
         //    SENDDATA_NOTIFY - Flags.  See vdapi.h:SENDDATA*.
 
-        rc = g_pSendData((DWORD)g_pWd, g_usVirtualChannelNum, g_MemorySections[0].pSection, g_MemorySections[0].length, &g_ulUserData, SENDDATA_NOTIFY);
+        rc = g_pSendData((DWORD)g_pWd, g_usVirtualChannelNum, g_MemorySections[0].pSection,
+            g_MemorySections[0].length, &g_ulUserData, SENDDATA_NOTIFY);
     }
     else
     {
@@ -761,7 +763,7 @@ int _SendAvailableData(void)
 
     if(CLIENT_STATUS_SUCCESS == rc)
     {
-        TRACE((TC_VD, TT_API2, "VDPING:_SendAvailableData. g_fBufferEmpty made TRUE"));
+        TRACE((TC_VD, TT_API2, "VDPING:_SendAvailableData. g_fBufferEmpty made TRUE"))
         g_fBufferEmpty = TRUE;
     }
     else if(CLIENT_ERROR_NO_OUTBUF == rc)

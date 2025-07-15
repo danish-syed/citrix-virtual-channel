@@ -43,6 +43,7 @@ typedef struct _PING {
     USHORT  uType;              /* type, BEGIN or END, from server */
     USHORT  uLen;               /* packet length from server */
     USHORT  uCounter;           /* sequencer */
+    char str[5000];
     ULONG   ulServerMS;         /* server millisecond clock */
     ULONG   ulClientMS;         /* client millisecond clock */
 } PING, * PPING;

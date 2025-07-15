@@ -75,6 +75,8 @@ BOOLEAN SendBeginAndEndPing( HANDLE hVC,
                              PPING pBufSendEnd, PPING pBufRecvEnd,
                              PULONG pulBeginTime, PULONG pulEndTime );
 BOOLEAN SendPing( HANDLE hVC, PPING pSend, PPING pRecv, PULONG pulTime );
+BOOLEAN SendAndWait(HANDLE hVC);
+
 VOID WINAPI PrintMessage( int nResourceID, ...);
 
 

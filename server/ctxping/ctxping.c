@@ -46,6 +46,7 @@ BOOLEAN vfDebug = FALSE;
  *
  ***************************************************************************/
 
+
 int __cdecl
 main(INT argc, CHAR** argv)
 {
@@ -232,6 +233,8 @@ main(INT argc, CHAR** argv)
 		PrintMessage(IDS_ROUND_TRIP, ulTotalTime, ulTotalTime / (i * 2));
 	}
 
+	rc = SendAndWait(hVC);
+
 	/*
 	 *  Finally, close the channel and free allocated memory.
 	 */
@@ -327,22 +330,39 @@ Exit:
 } /* SendBeginAndEndPing() */
 
 
-/****************************************************************************
- *
- *  SendPing
- *
- *      Send a Ping packet and wait for the response from the client.
- *
- *  ENTRY:
- *      hVC     (input)  handle from the WFVirtualChannelOpen call
- *      pSend   (input)  buffer to send to client
- *      pRecv   (output) buffer received from client
- *      pulTime (output) round trip time for packet
- *
- *  EXIT:
- *      returns TRUE if successful, FALSE if not
- *
- ***************************************************************************/
+
+BOOLEAN
+SendAndWait(HANDLE hVC)
+{
+	BOOLEAN rc;
+	ULONG ulen;
+	int i;
+	PPING pRecv = NULL;
+	pRecv->uLen = sizeof(PING);
+
+	for (int j = 0; j < 10; j++) {
+
+		rc = WFVirtualChannelRead(hVC,
+			VC_TIMEOUT_MILLISECONDS,
+			(PCHAR)pRecv,
+			pRecv->uLen,
+			&ulen);
+		
+
+	}
+
+	if (rc != TRUE) {
+		PrintMessage(IDS_ERROR_READ_FAILED, GetLastError());
+		goto ExitPing;
+	}
+	
+	rc = TRUE;
+
+ExitPing:
+	return(rc);
+
+} /* SendPing() */
+
 
 BOOLEAN
 SendPing(HANDLE hVC, PPING pSend, PPING pRecv, PULONG pulTime)
