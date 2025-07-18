@@ -1,1 +1,2 @@
 D:\Citrix\VCSDK\src\server\ctxping\Release\ctxping.exe
+D:\repos\credenti-ssosuite-app\Citrix\server\ctxping\Release\ctxping.exe

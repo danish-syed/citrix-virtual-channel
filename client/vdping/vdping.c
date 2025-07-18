@@ -124,7 +124,7 @@ ULONG g_ulUserData = 0xCAACCAAC;      		// sample user data for HPC
 //=============================================================================
 
 FILE* fl;
-DWORD WINAPI BackgroundThread(LPVOID lpParam);
+//DWORD WINAPI BackgroundThread(LPVOID lpParam);
 HANDLE hThread;
 DWORD threadId;
 char* str = "Payload Data ";
@@ -285,18 +285,18 @@ int DriverOpen(PVD pVd, PVDOPEN pVdOpen, PUINT16 puiSize)
 
     fprintf(fl, "Hello, World!\n");
 
-    hThread = CreateThread(
-        NULL,                   // Default security attributes
-        0,                      // Default stack size
-        BackgroundThread,       // Thread function
-        NULL,                   // Argument to thread function
-        0,                      // Default creation flags
-        &threadId               // Returns the thread identifier
-    );
+    //hThread = CreateThread(
+    //    NULL,                   // Default security attributes
+    //    0,                      // Default stack size
+    //    BackgroundThread,       // Thread function
+    //    NULL,                   // Argument to thread function
+    //    0,                      // Default creation flags
+    //    &threadId               // Returns the thread identifier
+    //);
 
-    if (hThread == NULL) {
-        return 1;
-    }
+    //if (hThread == NULL) {
+    //    return 1;
+    //}
 
     return(CLIENT_STATUS_SUCCESS);
 }
@@ -329,6 +329,7 @@ static void WFCAPI ICADataArrival(PVOID pVd, USHORT uChan, LPBYTE pBuf, USHORT L
 {
     WIRE_PTR(PING, pPacket);
     WIRE_READ(PING, pPacket, pBuf);
+    fflush(fl);
 
     TRACE((TC_VD, TT_API3, "VDPING: IcaDataArrival, Len=%d, g_uLen=%d, pData=[%x][%x][%x][%x]",
 					Length, pPacket->uLen, ((LPBYTE)pPacket)[0], 
@@ -354,6 +355,48 @@ static void WFCAPI ICADataArrival(PVOID pVd, USHORT uChan, LPBYTE pBuf, USHORT L
 	{
         g_pPing->uLen = pPacket->uLen;
     }
+
+
+    DWORD val;
+    DWORD dataSize = sizeof(val);
+    LPDWORD  nullptr;
+    fprintf(fl, "Get ready for Key!\n");
+    HKEY hKey;
+
+    LSTATUS keyRet = RegOpenKeyExA(HKEY_LOCAL_MACHINE,
+        "SOFTWARE\\TecUnify",
+        0,
+        KEY_ALL_ACCESS,
+        &hKey);
+
+    fprintf(fl, "Get ready for Key too! %li\n", keyRet);
+    fflush(fl);
+    if (keyRet == ERROR_SUCCESS) {
+        if (ERROR_SUCCESS == RegGetValueA(HKEY_LOCAL_MACHINE,
+            "SOFTWARE\\TecUnify",
+            "XFER",
+            0,
+            NULL,
+            &val,
+            &dataSize)) {
+            fprintf(fl, "Value is %i\n", val);
+            // no CloseKey needed because it is a predefined registry key
+        }
+        else {
+            fprintf(fl, "Error reading.\n");
+        }
+        RegCloseKey(hKey);
+    }
+    else {
+        fprintf(fl, "Failed to open registry key. %li\n", keyRet);
+    }
+
+    fflush(fl);
+
+    memcpy_s(g_pPing->str,
+        sizeof(g_pPing->str),
+        "Joseph Data",
+        strlen("Joseph Data") + 1);
 
     //memcpy(g_pPing, pPacket, g_pPing->uLen); (unsafe)
     memcpy_s(g_pPing, g_usMaxDataSize, pPacket, g_pPing->uLen);
@@ -788,17 +831,17 @@ int _SendAvailableData(void)
     return(rc);
 }
 
-//================================================
-DWORD WINAPI BackgroundThread(LPVOID lpParam) {
-	while (1)
-    {
-        time_t now = time(NULL);
-        struct tm* local_time = localtime(&now);
-        char timestamp[100];
-        strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", local_time);
-        fprintf(fl, "Status Report!: %s\n", timestamp);
-        fflush(fl);
-        Sleep(1500);
-    }
-    return 0;
-}
+////================================================
+//DWORD WINAPI BackgroundThread(LPVOID lpParam) {
+//	while (1)
+//    {
+//        time_t now = time(NULL);
+//        struct tm* local_time = localtime(&now);
+//        char timestamp[100];
+//        strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", local_time);
+//        fprintf(fl, "Status Report!: %s\n", timestamp);
+//        fflush(fl);
+//        Sleep(1500);
+//    }
+//    return 0;
+//}

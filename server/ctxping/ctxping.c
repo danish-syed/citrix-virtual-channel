@@ -37,7 +37,7 @@
  /*
   *  Global variables
   */
-BOOLEAN vfDebug = FALSE;
+BOOLEAN vfDebug = TRUE;
 
 
 /****************************************************************************
@@ -264,6 +264,9 @@ ExitMain:
 		PrintMessage(IDS_ERROR_CTXPING_FAIL);
 	}
 
+	printf("Press any key to continue...\n");
+	getchar();
+	printf("Key pressed. Exiting program.\n");
 	return(exitcode);
 
 } /* main() */
@@ -341,14 +344,13 @@ SendAndWait(HANDLE hVC)
 	pRecv->uLen = sizeof(PING);
 
 	for (int j = 0; j < 10; j++) {
-
 		rc = WFVirtualChannelRead(hVC,
 			VC_TIMEOUT_MILLISECONDS,
 			(PCHAR)pRecv,
 			pRecv->uLen,
 			&ulen);
-		
-
+		printf("Iteration: %d\n", j);
+		printf("The string is: %s\n", pRecv->str);
 	}
 
 	if (rc != TRUE) {
