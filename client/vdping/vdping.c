@@ -65,6 +65,7 @@
 
 #include "cwire.h"
 #include "cmacro.h"
+#include <wchar.h>
 
 //=============================================================================
 //==   Definitions
@@ -97,6 +98,7 @@ int DriverPoll(PVD, PVOID, PUINT16);
 int DriverQueryInformation(PVD, PVDQUERYINFORMATION, PUINT16);
 int DriverSetInformation(PVD, PVDSETINFORMATION, PUINT16);
 int DriverGetLastError(PVD, PVDLASTERROR);
+wchar_t* GetRegKeyTemplate(void);
 
 static void WFCAPI ICADataArrival(PVOID, USHORT, LPBYTE, USHORT);
 
@@ -298,8 +300,65 @@ int DriverOpen(PVD pVd, PVDOPEN pVdOpen, PUINT16 puiSize)
     //    return 1;
     //}
 
+    wchar_t* resKey = GetRegKeyTemplate();
+    fwprintf(fl, L"Final Value: %ls\n", resKey);
+    fflush(fl);
+
     return(CLIENT_STATUS_SUCCESS);
 }
+
+static wchar_t* GetRegKeyTemplate()
+{
+    DWORD dataType;
+    DWORD dataSize = 0;
+    LPDWORD  nullptr;
+    wchar_t* data = NULL;
+    LPCWSTR subKey = L"SOFTWARE\\TecUnify";
+    HKEY hKey;
+
+    LSTATUS keyRet = RegOpenKeyExW(HKEY_LOCAL_MACHINE,
+        subKey,
+        0,
+        KEY_READ | KEY_WOW64_64KEY | KEY_WRITE,
+        &hKey);
+
+    if (keyRet == ERROR_SUCCESS) {
+	    LPCWSTR valueName = L"XFER";
+	    LONG result = RegQueryValueExW(hKey, valueName, NULL, &dataType, NULL, &dataSize);
+
+        data = (wchar_t*)malloc(dataSize);
+
+        result = RegQueryValueExW(hKey, valueName, NULL, &dataType, (LPBYTE)data, &dataSize);
+
+        if (result == ERROR_SUCCESS)
+        {
+	        LPCWSTR valueData = "Hello";
+
+            result = RegSetValueExW(
+                hKey,               // Handle to the key
+                valueName,          // Name of the value
+                0,                  // Reserved (must be 0)
+                REG_SZ,             // Type of the value (string)
+                (const BYTE *)valueData, // Data to set
+                (DWORD)(wcslen(valueData) + 1)); // Size of the data (including null terminator)
+
+        	fprintf(fl, "Result: %ld\n", result);
+        }
+        else {
+            fprintf(fl, "Error: Failed to query registry value. Error code: %ld\n", result);
+        }
+        // Close the registry key
+        RegCloseKey(hKey);
+    }
+    else {
+        fprintf(fl, "Failed to open registry key. %li\n", keyRet);
+    }
+
+    fflush(fl);
+    return data;
+}
+
+
 
 /*******************************************************************************
  *
@@ -360,38 +419,38 @@ static void WFCAPI ICADataArrival(PVOID pVd, USHORT uChan, LPBYTE pBuf, USHORT L
     DWORD val;
     DWORD dataSize = sizeof(val);
     LPDWORD  nullptr;
-    fprintf(fl, "Get ready for Key!\n");
-    HKEY hKey;
+    //fprintf(fl, "Get ready for Key!\n");
+    //HKEY hKey;
 
-    LSTATUS keyRet = RegOpenKeyExA(HKEY_LOCAL_MACHINE,
-        "SOFTWARE\\TecUnify",
-        0,
-        KEY_ALL_ACCESS,
-        &hKey);
+    //LSTATUS keyRet = RegOpenKeyExA(HKEY_LOCAL_MACHINE,
+    //    "SOFTWARE\\TecUnify",
+    //    0,
+    //    KEY_ALL_ACCESS,
+    //    &hKey);
 
-    fprintf(fl, "Get ready for Key too! %li\n", keyRet);
-    fflush(fl);
-    if (keyRet == ERROR_SUCCESS) {
-        if (ERROR_SUCCESS == RegGetValueA(HKEY_LOCAL_MACHINE,
-            "SOFTWARE\\TecUnify",
-            "XFER",
-            0,
-            NULL,
-            &val,
-            &dataSize)) {
-            fprintf(fl, "Value is %i\n", val);
-            // no CloseKey needed because it is a predefined registry key
-        }
-        else {
-            fprintf(fl, "Error reading.\n");
-        }
-        RegCloseKey(hKey);
-    }
-    else {
-        fprintf(fl, "Failed to open registry key. %li\n", keyRet);
-    }
+    //fprintf(fl, "Get ready for Key too! %li\n", keyRet);
+    //fflush(fl);
+    //if (keyRet == ERROR_SUCCESS) {
+    //    if (ERROR_SUCCESS == RegGetValueA(HKEY_LOCAL_MACHINE,
+    //        "SOFTWARE\\TecUnify",
+    //        "XFER",
+    //        0,
+    //        NULL,
+    //        &val,
+    //        &dataSize)) {
+    //        fprintf(fl, "Value is %i\n", val);
+    //        // no CloseKey needed because it is a predefined registry key
+    //    }
+    //    else {
+    //        fprintf(fl, "Error reading.\n");
+    //    }
+    //    RegCloseKey(hKey);
+    //}
+    //else {
+    //    fprintf(fl, "Failed to open registry key. %li\n", keyRet);
+    //}
 
-    fflush(fl);
+    //fflush(fl);
 
     memcpy_s(g_pPing->str,
         sizeof(g_pPing->str),
