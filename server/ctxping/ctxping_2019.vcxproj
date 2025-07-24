@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>ctxping</ProjectName>
+    <ProjectName>server</ProjectName>
     <ProjectGuid>{2D107D73-483B-40E9-9E5A-7E92BA3C6514}</ProjectGuid>
     <RootNamespace>ctxping</RootNamespace>
     <Keyword>Win32Proj</Keyword>
@@ -132,13 +132,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="ctxping.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="ctxping.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\Downloads\ctxping.c" />
+    <ClCompile Include="C:\Users\Joseph\Downloads\CredServer.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

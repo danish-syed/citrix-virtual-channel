@@ -11,10 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="vdping.c" />
+    <ClCompile Include="C:\Users\Joseph\Downloads\vdmix.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>vdpingn</ProjectName>
+    <ProjectName>client</ProjectName>
     <ProjectGuid>{A9307E72-1990-4917-960E-F910E6319179}</ProjectGuid>
     <RootNamespace>vdpingn</RootNamespace>
     <Keyword>Win32Proj</Keyword>
