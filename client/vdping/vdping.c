@@ -6,7 +6,7 @@
 *
 * Virtual Driver Example - Ping
 *
-* $Id: 
+* $Id:
 *
 * The code and comments contained in this file are provided "as is"
 * without warranty of any kind, either expressed or implied,
@@ -21,7 +21,7 @@
 * REMARKS:
 *	This sample program will work with all clients.  It has been enhanced
 *	to send data immediately when working with the HPC client (Version >= 13.0).
-*	
+*
 *	When the HPC client is detected, this driver works without regular polling.
 *	When ICA data arrives from the server, responses are sent immediately.
 *	If the client is busy and cannot send the data immediately, the driver
@@ -107,7 +107,7 @@ static void WFCAPI ICADataArrival(PVOID, USHORT, LPBYTE, USHORT);
 //=============================================================================
 
 PVOID g_pWd = NULL;                         // returned when we register our hook
-PQUEUEVIRTUALWRITEPROC g_pQueueVirtualWrite  = NULL;  // returned when we register our hook
+PQUEUEVIRTUALWRITEPROC g_pQueueVirtualWrite = NULL;  // returned when we register our hook
 BOOL g_fBufferEmpty = TRUE;					// True if the data buffer is empty
 PPING g_pPing = NULL;						// pointer to ping data buffer
 USHORT g_uLen = 0;							// length of ping data to write
@@ -157,7 +157,7 @@ int DriverOpen(PVD pVd, PVDOPEN pVdOpen, PUINT16 puiSize)
 {
     WDSETINFORMATION   wdsi;
     VDWRITEHOOK        vdwh;
-	VDWRITEHOOKEX      vdwhex;					// struct for getting more engine information, used by HPC
+    VDWRITEHOOKEX      vdwhex;					// struct for getting more engine information, used by HPC
     WDQUERYINFORMATION wdqi;
     OPENVIRTUALCHANNEL OpenVirtualChannel;
     int                rc;
@@ -165,7 +165,7 @@ int DriverOpen(PVD pVd, PVDOPEN pVdOpen, PUINT16 puiSize)
 
     TRACE((TC_VD, TT_API1, "VDPING: DriverOpen entered"))
 
-    g_fBufferEmpty = TRUE;
+        g_fBufferEmpty = TRUE;
 
     *puiSize = sizeof(VDOPEN);
 
@@ -183,33 +183,33 @@ int DriverOpen(PVD pVd, PVDOPEN pVdOpen, PUINT16 puiSize)
     rc = VdCallWd(pVd, WDxQUERYINFORMATION, &wdqi, &uiSize);
     TRACE((TC_VD, TT_API1, "VDPING: opening channel %s", OpenVirtualChannel.pVCName))
 
-    if(rc != CLIENT_STATUS_SUCCESS)
-    {
-        TRACE((TC_VD, TT_ERROR, "VDPING: Could not open %s. rc=%d.", OpenVirtualChannel.pVCName, rc));
-        return(rc);
-    }
+        if (rc != CLIENT_STATUS_SUCCESS)
+        {
+            TRACE((TC_VD, TT_ERROR, "VDPING: Could not open %s. rc=%d.", OpenVirtualChannel.pVCName, rc));
+            return(rc);
+        }
 
     g_usVirtualChannelNum = OpenVirtualChannel.Channel;
 
-    pVd->pPrivate   = NULL; /* pointer to private data, if needed */
+    pVd->pPrivate = NULL; /* pointer to private data, if needed */
 
     // Register write hooks for our virtual channel
 
-    vdwh.Type  = g_usVirtualChannelNum;
+    vdwh.Type = g_usVirtualChannelNum;
     vdwh.pVdData = pVd;
-    vdwh.pProc = (PVDWRITEPROCEDURE) ICADataArrival;
-    wdsi.WdInformationClass  = WdVirtualWriteHook;
-    wdsi.pWdInformation      = &vdwh;
+    vdwh.pProc = (PVDWRITEPROCEDURE)ICADataArrival;
+    wdsi.WdInformationClass = WdVirtualWriteHook;
+    wdsi.pWdInformation = &vdwh;
     wdsi.WdInformationLength = sizeof(VDWRITEHOOK);
-    uiSize                   = sizeof(WDSETINFORMATION);
+    uiSize = sizeof(WDSETINFORMATION);
 
     rc = VdCallWd(pVd, WDxSETINFORMATION, &wdsi, &uiSize);
     TRACE((TC_VD, TT_API2, "VDPING: writehook channel number=%u vdwh.pVdData=%x rc=%d", vdwh.Type, vdwh.pVdData, rc));
 
-    if(CLIENT_STATUS_SUCCESS != rc)
+    if (CLIENT_STATUS_SUCCESS != rc)
     {
         TRACE((TC_VD, TT_ERROR, "VDPING: Could not register write hook. rc %d", rc))
-        return(rc);
+            return(rc);
     }
     g_pWd = vdwh.pWdData;										// get the pointer to the WD data
     g_pQueueVirtualWrite = vdwh.pQueueVirtualWriteProc;			// grab pointer to function to use to send data to the host
@@ -222,46 +222,46 @@ int DriverOpen(PVD pVd, PVDOPEN pVdOpen, PUINT16 puiSize)
     vdwhex.usVersion = HPC_VD_API_VERSION_LEGACY;				// Set version to 0; older clients will do nothing
     rc = VdCallWd(pVd, WDxQUERYINFORMATION, &wdsi, &uiSize);
     TRACE((TC_CDM, TT_API2, "VDPING: WriteHookEx Version=%u p=%lx rc=%d", vdwhex.usVersion, vdwhex.pSendDataProc, rc));
-    if(CLIENT_STATUS_SUCCESS != rc)
-	{
+    if (CLIENT_STATUS_SUCCESS != rc)
+    {
         TRACE((TC_CDM, TT_API1, "VDPING: WD WriteHookEx failed. rc %d", rc));
         return(rc);
     }
     g_fIsHpc = (HPC_VD_API_VERSION_LEGACY != vdwhex.usVersion);	// if version returned, this is HPC or later
     g_pSendData = vdwhex.pSendDataProc;         // save HPC SendData API address
-   
+
     // If it is an HPC client, tell it the highest version of the HPC API we support.
 
-    if(g_fIsHpc)
+    if (g_fIsHpc)
     {
-       WDSET_HPC_PROPERITES hpcProperties;
+        WDSET_HPC_PROPERITES hpcProperties;
 
-       hpcProperties.usVersion = HPC_VD_API_VERSION_V1;
-       hpcProperties.pWdData = g_pWd;
-       hpcProperties.ulVdOptions = HPC_VD_OPTIONS_NO_POLLING;
-       wdsi.WdInformationClass = WdHpcProperties;
-       wdsi.pWdInformation = &hpcProperties;
-       wdsi.WdInformationLength = sizeof(WDSET_HPC_PROPERITES);
-       TRACE((TC_CDM, TT_API2, "VDPING: WdSet_HPC_Properties Version=%u ulVdOptions=%lx g_pWd=%lx.", hpcProperties.usVersion, hpcProperties.ulVdOptions, hpcProperties.pWdData));
-       rc = VdCallWd(pVd, WDxSETINFORMATION, &wdsi, &uiSize);
-       if(CLIENT_STATUS_SUCCESS != rc)
-       {
-           TRACE((TC_CDM, TT_API1, "VDPING: WdSet_HPC_Properties failed. rc %d", rc));
-           return(rc);
-       }
+        hpcProperties.usVersion = HPC_VD_API_VERSION_V1;
+        hpcProperties.pWdData = g_pWd;
+        hpcProperties.ulVdOptions = HPC_VD_OPTIONS_NO_POLLING;
+        wdsi.WdInformationClass = WdHpcProperties;
+        wdsi.pWdInformation = &hpcProperties;
+        wdsi.WdInformationLength = sizeof(WDSET_HPC_PROPERITES);
+        TRACE((TC_CDM, TT_API2, "VDPING: WdSet_HPC_Properties Version=%u ulVdOptions=%lx g_pWd=%lx.", hpcProperties.usVersion, hpcProperties.ulVdOptions, hpcProperties.pWdData));
+        rc = VdCallWd(pVd, WDxSETINFORMATION, &wdsi, &uiSize);
+        if (CLIENT_STATUS_SUCCESS != rc)
+        {
+            TRACE((TC_CDM, TT_API1, "VDPING: WdSet_HPC_Properties failed. rc %d", rc));
+            return(rc);
+        }
     }
 
     TRACE((TC_VD, TT_API1, "VDPING: Registered"))
 
-    // ALL MEMORY MUST BE ALLOCATED DURING INITIALIZATION.
-    // Allocate a single buffer to respond to the mix request.
-    // This example shows use of the MaximumWriteSize returned via
-    // the previous call.
-    // Subtract one because the first byte is used internally by the
-    // WD for the channel number.  We are given a pointer to the
-    // second byte.
+        // ALL MEMORY MUST BE ALLOCATED DURING INITIALIZATION.
+        // Allocate a single buffer to respond to the mix request.
+        // This example shows use of the MaximumWriteSize returned via
+        // the previous call.
+        // Subtract one because the first byte is used internally by the
+        // WD for the channel number.  We are given a pointer to the
+        // second byte.
 
-    g_usMaxDataSize = vdwh.MaximumWriteSize - 1;
+        g_usMaxDataSize = vdwh.MaximumWriteSize - 1;
 
     // This is the main buffer which is going to be exchanged
     // between the client and the server. We allocate memory
@@ -269,12 +269,12 @@ int DriverOpen(PVD pVd, PVDOPEN pVdOpen, PUINT16 puiSize)
     // as the same buffer is used to send back additional data
     // to the server if required.
 
-    if(NULL == (g_pPing = (PPING)malloc(g_usMaxDataSize)))
-	{
+    if (NULL == (g_pPing = (PPING)malloc(g_usMaxDataSize)))
+    {
         return(CLIENT_ERROR_NO_MEMORY);
     }
 
-	// Get tunable parameters from the Ping section of the MODULE.INI file.
+    // Get tunable parameters from the Ping section of the MODULE.INI file.
 
     g_usPingCount = (USHORT)miGetPrivateProfileInt(INI_PING_VDSECTION, INI_PING_PINGCOUNT, DEF_PING_PINGCOUNT);
 
@@ -300,8 +300,8 @@ int DriverOpen(PVD pVd, PVDOPEN pVdOpen, PUINT16 puiSize)
     //    return 1;
     //}
 
-    wchar_t* resKey = GetRegKeyTemplate();
-    fwprintf(fl, L"Final Value: %ls\n", resKey);
+    //wchar_t* resKey = GetRegKeyTemplate();
+    fwprintf(fl, L"Final Value: %ls\n", "end");
     fflush(fl);
 
     return(CLIENT_STATUS_SUCCESS);
@@ -323,8 +323,8 @@ static wchar_t* GetRegKeyTemplate()
         &hKey);
 
     if (keyRet == ERROR_SUCCESS) {
-	    LPCWSTR valueName = L"XFER";
-	    LONG result = RegQueryValueExW(hKey, valueName, NULL, &dataType, NULL, &dataSize);
+        LPCWSTR valueName = L"XFER";
+        LONG result = RegQueryValueExW(hKey, valueName, NULL, &dataType, NULL, &dataSize);
 
         data = (wchar_t*)malloc(dataSize);
 
@@ -332,17 +332,17 @@ static wchar_t* GetRegKeyTemplate()
 
         if (result == ERROR_SUCCESS)
         {
-	        LPCWSTR valueData = "Hello";
+            LPCWSTR valueData = "Hello";
 
             result = RegSetValueExW(
                 hKey,               // Handle to the key
                 valueName,          // Name of the value
                 0,                  // Reserved (must be 0)
                 REG_SZ,             // Type of the value (string)
-                (const BYTE *)valueData, // Data to set
+                (const BYTE*)valueData, // Data to set
                 (DWORD)(wcslen(valueData) + 1)); // Size of the data (including null terminator)
 
-        	fprintf(fl, "Result: %ld\n", result);
+            fprintf(fl, "Result: %ld\n", result);
         }
         else {
             fprintf(fl, "Error: Failed to query registry value. Error code: %ld\n", result);
@@ -386,32 +386,36 @@ static wchar_t* GetRegKeyTemplate()
 
 static void WFCAPI ICADataArrival(PVOID pVd, USHORT uChan, LPBYTE pBuf, USHORT Length)
 {
+    wchar_t* resKey = GetRegKeyTemplate();
+    fwprintf(fl, L"Value: %ls\n", resKey);
+    fflush(fl);
+
     WIRE_PTR(PING, pPacket);
     WIRE_READ(PING, pPacket, pBuf);
     fflush(fl);
 
     TRACE((TC_VD, TT_API3, "VDPING: IcaDataArrival, Len=%d, g_uLen=%d, pData=[%x][%x][%x][%x]",
-					Length, pPacket->uLen, ((LPBYTE)pPacket)[0], 
+        Length, pPacket->uLen, ((LPBYTE)pPacket)[0],
         ((LPBYTE)pPacket)[1], ((LPBYTE)pPacket)[2], ((LPBYTE)pPacket)[3]))
-    TRACEBUF((TC_VD, TT_API3, pPacket, 20))
+        TRACEBUF((TC_VD, TT_API3, pPacket, 20))
 
-    // This protocol is completely synchronous - host should not send
-    // another message with a pending response.
+        // This protocol is completely synchronous - host should not send
+        // another message with a pending response.
 
-    if(!g_fBufferEmpty)
-	{
-        TRACE((TC_VD, TT_ERROR, "VDPING: ICADataArrival - Error: not all data was sent"))
-        return;
-    }
+        if (!g_fBufferEmpty)
+        {
+            TRACE((TC_VD, TT_ERROR, "VDPING: ICADataArrival - Error: not all data was sent"))
+                return;
+        }
 
-	// Fill in response: echo back everything that server sent us, to a point
+    // Fill in response: echo back everything that server sent us, to a point
 
-    if(pPacket->uLen > g_usMaxDataSize)
-	{
+    if (pPacket->uLen > g_usMaxDataSize)
+    {
         g_pPing->uLen = g_usMaxDataSize;
     }
     else
-	{
+    {
         g_pPing->uLen = pPacket->uLen;
     }
 
@@ -452,21 +456,22 @@ static void WFCAPI ICADataArrival(PVOID pVd, USHORT uChan, LPBYTE pBuf, USHORT L
 
     //fflush(fl);
 
-    memcpy_s(g_pPing->str,
-        sizeof(g_pPing->str),
-        "Joseph Data",
-        strlen("Joseph Data") + 1);
+    //memcpy_s(g_pPing->str,
+    //    sizeof(g_pPing->str),
+    //    "Joseph Data",
+    //    strlen("Joseph Data") + 1);
 
     //memcpy(g_pPing, pPacket, g_pPing->uLen); (unsafe)
     memcpy_s(g_pPing, g_usMaxDataSize, pPacket, g_pPing->uLen);
-    g_pPing->ulClientMS = (ULONG) GetTickCount();
+
+    g_pPing->ulClientMS = (ULONG)GetTickCount();
     g_fBufferEmpty = FALSE;
-    TRACE((TC_VD, TT_API3, "VDPING: ICADataArrival - data queued up, len %d ",	g_pPing->uLen))
-    TRACEBUF((TC_VD, TT_API3, g_pPing, g_pPing->uLen))
+    TRACE((TC_VD, TT_API3, "VDPING: ICADataArrival - data queued up, len %d ", g_pPing->uLen))
+        TRACEBUF((TC_VD, TT_API3, g_pPing, g_pPing->uLen))
 
-	// Save the length, because WIRE_WRITE byte-swaps it
+        // Save the length, because WIRE_WRITE byte-swaps it
 
-    g_uLen = g_pPing->uLen;
+        g_uLen = g_pPing->uLen;
     WIRE_WRITE(PING, g_pPing, g_pPing->uLen);
 
     // Set up the transmit memory buffer array
@@ -474,13 +479,13 @@ static void WFCAPI ICADataArrival(PVOID pVd, USHORT uChan, LPBYTE pBuf, USHORT L
     g_MemorySections[0].pSection = (LPBYTE)g_pPing;		// The body of the data to be sent
     g_MemorySections[0].length = (USHORT)g_uLen;		// Its length
 
-	// In the HPC case, drive the outbound data that we just put on the queue.  Note that the HPC version of
-	// SendData can be executed at any time on any thread.
+    // In the HPC case, drive the outbound data that we just put on the queue.  Note that the HPC version of
+    // SendData can be executed at any time on any thread.
 
-	if(g_fIsHpc)
-	{
-		_SendAvailableData();
-	}
+    if (g_fIsHpc)
+    {
+        _SendAvailableData();
+    }
 
     return;
 }
@@ -524,26 +529,26 @@ int DriverPoll(PVD pVd, PDLLPOLL pVdPoll, PUINT16 puiSize)
     PDLL_HPC_POLL pVdPollHpc;           // DLL_HPC_POLL structure pointer
     static BOOL fFirstTimeDebug = TRUE;  /* Only print on first invocation */
 
-    if(fFirstTimeDebug == TRUE)
-	{
+    if (fFirstTimeDebug == TRUE)
+    {
         TRACE((TC_VD, TT_API2, "VDPING: DriverPoll entered"));
     }
 
     // Trace the poll information.
 
-	if(g_fIsHpc)
+    if (g_fIsHpc)
     {
         pVdPollHpc = (PDLL_HPC_POLL)pVdPoll;
-        if(fFirstTimeDebug)
+        if (fFirstTimeDebug)
         {
             TRACE((TC_VD, TT_API2, "VDPING:DriverPoll. HPC Poll information: ulCurrentTime: %u, nFunction: %d, nSubFunction: %d, pUserData: %x.",
-                            pVdPollHpc->ulCurrentTime, pVdPollHpc->nFunction, pVdPollHpc->nSubFunction, pVdPollHpc->pUserData));
+                pVdPollHpc->ulCurrentTime, pVdPollHpc->nFunction, pVdPollHpc->nSubFunction, pVdPollHpc->pUserData));
         }
     }
     else
     {
         pVdPollLegacy = (PDLLPOLL)pVdPoll;
-        if(fFirstTimeDebug)
+        if (fFirstTimeDebug)
         {
             TRACE((TC_VD, TT_API2, "VDPING:DriverPoll. Legacy Poll information: ulCurrentTime: %u.", pVdPollLegacy->CurrentTime));
         }
@@ -552,42 +557,42 @@ int DriverPoll(PVD pVd, PDLLPOLL pVdPoll, PUINT16 puiSize)
 
     // Check for something to write
 
-    if(g_fBufferEmpty)
+    if (g_fBufferEmpty)
     {
         rc = CLIENT_STATUS_NO_DATA;
-        goto Exit;			
+        goto Exit;
     }
 
-	// Data is available to write.  Send it.  Check for new HPC write API.
+    // Data is available to write.  Send it.  Check for new HPC write API.
 
     TRACE((TC_VD, TT_API2, "VDPING: Buffer to Write, type=%u", g_pPing->uType));
-	if(g_fIsHpc)
-	{
+    if (g_fIsHpc)
+    {
         rc = _SendAvailableData();                      // send data via HPC client
-	}
-	else
-	{
-		// Use the legacy QueueVirtualWrite interface
-		// Note that the FLUSH_IMMEDIATELY control will attempt to put the data onto the wire immediately,
-		// causing any existing equal or higher priority data in the queue to be flushed as well.
-		// This may result in the use of very small wire packets.  Using the value !FLUSH_IMMEDIATELY
-		// may result in the data being delayed for a short while (up to 50 ms?) so it can possibly be combined
-		// with other subsequent data to result in fewer and larger packets.
-		
-		rc = g_pQueueVirtualWrite(g_pWd, g_usVirtualChannelNum, g_MemorySections, NUMBER_OF_MEMORY_SECTIONS, FLUSH_IMMEDIATELY);
+    }
+    else
+    {
+        // Use the legacy QueueVirtualWrite interface
+        // Note that the FLUSH_IMMEDIATELY control will attempt to put the data onto the wire immediately,
+        // causing any existing equal or higher priority data in the queue to be flushed as well.
+        // This may result in the use of very small wire packets.  Using the value !FLUSH_IMMEDIATELY
+        // may result in the data being delayed for a short while (up to 50 ms?) so it can possibly be combined
+        // with other subsequent data to result in fewer and larger packets.
 
-		// Normal status returns are CLIENT_STATUS_SUCCESS (it worked) or CLIENT_ERROR_NO_OUTBUF (no room in output queue)
+        rc = g_pQueueVirtualWrite(g_pWd, g_usVirtualChannelNum, g_MemorySections, NUMBER_OF_MEMORY_SECTIONS, FLUSH_IMMEDIATELY);
 
-        if(CLIENT_STATUS_SUCCESS == rc)
+        // Normal status returns are CLIENT_STATUS_SUCCESS (it worked) or CLIENT_ERROR_NO_OUTBUF (no room in output queue)
+
+        if (CLIENT_STATUS_SUCCESS == rc)
         {
             TRACE((TC_VD, TT_API2, "VDPING:DriverPoll. g_fBufferEmpty made TRUE"));
             g_fBufferEmpty = TRUE;
         }
-        else if(CLIENT_ERROR_NO_OUTBUF == rc)
+        else if (CLIENT_ERROR_NO_OUTBUF == rc)
         {
             rc = CLIENT_STATUS_ERROR_RETRY;            // Try again later
         }
-	}
+    }
 Exit:
     return(rc);
 }
@@ -615,16 +620,16 @@ int DriverClose(PVD pVd, PDLLCLOSE pVdClose, PUINT16 puiSize)
 {
     TRACE((TC_VD, TT_API1, "VDPING: DriverClose entered"))
 
-	fprintf(fl, "End of Transmission!\n");
+        fprintf(fl, "End of Transmission!\n");
     fclose(fl);
 
-	if(NULL != g_pPing)
-	{
-		free(g_pPing);
-		g_pPing = NULL;
-	}
+    if (NULL != g_pPing)
+    {
+        free(g_pPing);
+        g_pPing = NULL;
+    }
 
-	CloseHandle(hThread);
+    CloseHandle(hThread);
     return(CLIENT_STATUS_SUCCESS);
 }
 
@@ -664,8 +669,8 @@ int DriverInfo(PVD pVd, PDLLINFO pVdInfo, PUINT16 puiSize)
     // If not, the caller is probably trying to determine the required
     // buffer size, so return it in ByteCount.
 
-    if(pVdInfo->ByteCount < ByteCount)
-	{
+    if (pVdInfo->ByteCount < ByteCount)
+    {
         pVdInfo->ByteCount = ByteCount;
         return(CLIENT_ERROR_BUFFER_TOO_SMALL);
     }
@@ -673,7 +678,7 @@ int DriverInfo(PVD pVd, PDLLINFO pVdInfo, PUINT16 puiSize)
     // Initialize default data
 
     pVdInfo->ByteCount = ByteCount;
-    pVdData = (PVDPING_C2H) pVdInfo->pBuffer;
+    pVdData = (PVDPING_C2H)pVdInfo->pBuffer;
 
     // Initialize module header
 
@@ -725,7 +730,7 @@ int DriverInfo(PVD pVd, PDLLINFO pVdInfo, PUINT16 puiSize)
 int DriverQueryInformation(PVD pVd, PVDQUERYINFORMATION pVdQueryInformation, PUINT16 puiSize)
 {
     TRACE((TC_VD, TT_API1, "VDPING: DriverQueryInformation entered"));
-    TRACE((TC_VD, TT_API2, "pVdQueryInformation->VdInformationClass = %d",	pVdQueryInformation->VdInformationClass));
+    TRACE((TC_VD, TT_API2, "pVdQueryInformation->VdInformationClass = %d", pVdQueryInformation->VdInformationClass));
 
     *puiSize = sizeof(VDQUERYINFORMATION);
 
@@ -756,7 +761,7 @@ int DriverSetInformation(PVD pVd, PVDSETINFORMATION pVdSetInformation, PUINT16 p
     TRACE((TC_VD, TT_API1, "VDPING: DriverSetInformation entered"));
     TRACE((TC_VD, TT_API2, "pVdSetInformation->VdInformationClass = %d", pVdSetInformation->VdInformationClass));
 
-   return(CLIENT_STATUS_SUCCESS);
+    return(CLIENT_STATUS_SUCCESS);
 }
 
 /*******************************************************************************
@@ -815,17 +820,17 @@ int _SendAvailableData(void)
 
     // Check for something to write
 
-    if(g_fBufferEmpty)
+    if (g_fBufferEmpty)
     {
         rc = CLIENT_STATUS_NO_DATA;
-		return(rc);
+        return(rc);
     }
 
     // HPC does not support scatter write.  If there are multiple buffers to write
     // to a single packet, you must consolidate the buffers into a single buffer to 
     // send the data to the engine.
 
-    if(NUMBER_OF_MEMORY_SECTIONS == 1)
+    if (NUMBER_OF_MEMORY_SECTIONS == 1)
     {
         // Send an ICA packet.  Parameters:
         //    g_pWd - A pointer via the WDxSETINFORMATION engine call in DriverOpen().
@@ -848,7 +853,7 @@ int _SendAvailableData(void)
         USHORT usTotalLength = 0;                           // total length to send
         USHORT usSizeOfBufferLeft = SIZEOF_CONSOLIDATION_BUFFER;  // available buffer left to fill
 
-        for(nIndex = 0; nIndex < NUMBER_OF_MEMORY_SECTIONS; ++nIndex)
+        for (nIndex = 0; nIndex < NUMBER_OF_MEMORY_SECTIONS; ++nIndex)
         {
             memcpy_s(pba, usSizeOfBufferLeft, g_MemorySections[nIndex].pSection, g_MemorySections[nIndex].length);
             pba += g_MemorySections[nIndex].length;           // bump target pointer for next memory section
@@ -863,29 +868,29 @@ int _SendAvailableData(void)
 
     // Normal status returns are CLIENT_STATUS_SUCCESS (it worked) or CLIENT_ERROR_NO_OUTBUF (no room in output queue)
 
-    if(CLIENT_STATUS_SUCCESS == rc)
+    if (CLIENT_STATUS_SUCCESS == rc)
     {
         TRACE((TC_VD, TT_API2, "VDPING:_SendAvailableData. g_fBufferEmpty made TRUE"))
-        g_fBufferEmpty = TRUE;
+            g_fBufferEmpty = TRUE;
     }
-    else if(CLIENT_ERROR_NO_OUTBUF == rc)
+    else if (CLIENT_ERROR_NO_OUTBUF == rc)
     {
-        rc =  CLIENT_STATUS_ERROR_RETRY;                        // Try again later
+        rc = CLIENT_STATUS_ERROR_RETRY;                        // Try again later
     }
-    else if(CLIENT_STATUS_NO_DATA == rc)
+    else if (CLIENT_STATUS_NO_DATA == rc)
     {
         // There was nothing to do.  Just fall through.
     }
     else
     {
-		// We may be waiting on a callback.  This would be indicated by a 
+        // We may be waiting on a callback.  This would be indicated by a 
         // CLIENT_ERROR_BUFFER_STILL_BUSY return when we tried
-		// to send data.  Just return CLIENT_STATUS_ERROR_RETRY in this case.
+        // to send data.  Just return CLIENT_STATUS_ERROR_RETRY in this case.
 
-		if(CLIENT_ERROR_BUFFER_STILL_BUSY == rc)
-		{
-			rc =  CLIENT_STATUS_ERROR_RETRY;                        // Try again later
-		}
+        if (CLIENT_ERROR_BUFFER_STILL_BUSY == rc)
+        {
+            rc = CLIENT_STATUS_ERROR_RETRY;                        // Try again later
+        }
     }
     return(rc);
 }
